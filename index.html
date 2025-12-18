@@ -3,92 +3,144 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Drowned MC 🧊</title>
+  <title>Drowned MC 🧊 | Frozen Depths</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    body { margin:0; font-family:Arial, Helvetica, sans-serif; background:radial-gradient(circle at top, #0ea5e9, #020617); color:#e5e7eb; }
-    header { background:linear-gradient(135deg,#7dd3fc,#38bdf8,#0ea5e9); padding:50px 20px; text-align:center; box-shadow:0 10px 40px rgba(0,0,0,0.6); }
-    h1 { margin:0; font-size:3.2rem; text-shadow:0 0 20px rgba(125,211,252,0.8); }
-    nav { background:rgba(2,6,23,0.8); backdrop-filter:blur(8px); padding:14px; text-align:center; }
-    nav a { margin:0 14px; color:#bae6fd; text-decoration:none; font-weight:bold; }
-    nav a:hover { color:white; }
-    .container { max-width:1000px; margin:auto; padding:50px 20px; }
-    .card { background:rgba(2,6,23,0.85); border-radius:20px; padding:28px; margin-bottom:28px; box-shadow:0 20px 50px rgba(0,0,0,0.6); border:1px solid rgba(186,230,253,0.15); }
-    h2 { color:#bae6fd; margin-top:0; }
-    input, textarea { width:100%; padding:12px; margin-top:6px; border-radius:10px; border:1px solid rgba(186,230,253,0.2); background:#020617; color:white; }
-    button { margin-top:14px; padding:12px 18px; border:none; border-radius:14px; background:linear-gradient(135deg,#7dd3fc,#38bdf8); color:black; font-weight:bold; cursor:pointer; }
-    button:hover { filter:brightness(1.1); }
-    footer { text-align:center; padding:24px; background:#020617; color:#94a3b8; }
+    :root {
+      --ice:#7dd3fc;
+      --deep:#020617;
+      --frost:#0ea5e9;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      font-family:'Orbitron', sans-serif;
+      background:radial-gradient(circle at top, #38bdf8, #020617 70%);
+      color:#e5e7eb;
+      overflow-x:hidden;
+    }
+
+    /* Snow */
+    .snow { position:fixed; inset:0; pointer-events:none; }
+    .snow span {
+      position:absolute; top:-10px; color:white; opacity:.8;
+      animation: fall linear infinite;
+    }
+    @keyframes fall { to { transform:translateY(110vh); } }
+
+    header {
+      min-height:100vh;
+      display:flex; align-items:center; justify-content:center;
+      text-align:center;
+      background:url('https://images.unsplash.com/photo-1519681393784-d120267933ba') center/cover no-repeat;
+      position:relative;
+    }
+    header::after { content:''; position:absolute; inset:0; background:rgba(2,6,23,.75); }
+    header .hero { position:relative; z-index:2; }
+    h1 {
+      font-size:4rem; margin:0;
+      text-shadow:0 0 30px var(--ice);
+    }
+    header p { font-size:1.2rem; color:#bae6fd; }
+
+    nav {
+      position:sticky; top:0; z-index:10;
+      background:rgba(2,6,23,.85);
+      backdrop-filter:blur(10px);
+      padding:14px; text-align:center;
+    }
+    nav a { color:#7dd3fc; margin:0 16px; text-decoration:none; }
+
+    section { max-width:1100px; margin:auto; padding:80px 20px; }
+    .card {
+      background:rgba(2,6,23,.8);
+      border:1px solid rgba(125,211,252,.2);
+      border-radius:24px;
+      padding:40px;
+      box-shadow:0 30px 80px rgba(0,0,0,.7);
+      margin-bottom:40px;
+    }
+    h2 { color:#bae6fd; font-size:2rem; }
+
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; }
+
+    .ip {
+      font-size:1.6rem; text-align:center;
+      padding:20px; border:2px dashed var(--ice);
+      border-radius:20px; color:#7dd3fc;
+    }
+
+    footer { text-align:center; padding:40px; background:#020617; color:#94a3b8; }
+
+    /* Admin */
+    input, textarea { width:100%; padding:12px; border-radius:12px; border:none; background:#020617; color:white; }
+    button { margin-top:14px; padding:14px 20px; border:none; border-radius:16px; background:linear-gradient(135deg,#7dd3fc,#38bdf8); font-weight:700; cursor:pointer; }
     .hidden { display:none; }
   </style>
 </head>
 <body>
 
+<div class="snow" id="snow"></div>
+
 <header>
-  <h1 id="serverName">Drowned MC 🧊</h1>
-  <p id="serverDesc">Java & Bedrock • Frozen Adventures Await</p>
+  <div class="hero">
+    <h1 id="serverName">Drowned MC 🧊</h1>
+    <p id="serverDesc">Enter the Frozen Depths</p>
+  </div>
 </header>
 
 <nav>
-  <a href="#home">Home</a>
+  <a href="#about">About</a>
+  <a href="#modes">Gamemodes</a>
   <a href="#staff">Staff</a>
   <a href="#admin">Admin</a>
 </nav>
 
-<div class="container" id="home">
+<section id="about">
   <div class="card">
     <h2>Server IP</h2>
-    <p id="serverIP">Coming Soon</p>
+    <div class="ip" id="serverIP">Coming Soon</div>
   </div>
+</section>
 
+<section id="modes">
   <div class="card">
     <h2>Gamemodes</h2>
-    <p id="gamemodes">Not decided yet</p>
+    <p id="gamemodes">Custom frozen adventures await…</p>
   </div>
-</div>
+</section>
 
-<div class="container" id="staff">
+<section id="staff">
   <div class="card">
     <h2>Staff Team</h2>
     <ul id="staffList"></ul>
   </div>
-</div>
+</section>
 
-<div class="container" id="admin">
+<section id="admin">
   <div class="card" id="loginCard">
     <h2>Admin Login 🔒</h2>
-    <input id="adminPass" type="password" placeholder="Enter admin password" />
-    <button onclick="login()">Login</button>
+    <input id="adminPass" type="password" placeholder="Admin password" />
+    <button onclick="login()">Unlock</button>
   </div>
 
   <div class="card hidden" id="adminPanel">
-    <h2>Admin Panel ❄️</h2>
-
-    <label>Server Name</label>
-    <input id="adminName" />
-
-    <label>Description</label>
-    <input id="adminDesc" />
-
-    <label>Server IP</label>
-    <input id="adminIP" />
-
-    <label>Gamemodes</label>
-    <textarea id="adminModes"></textarea>
-
-    <label>Add Staff (name - role)</label>
-    <input id="adminStaff" placeholder="Steve - Admin" />
-
-    <button onclick="saveData()">Save Changes</button>
+    <h2>Control Core ❄️</h2>
+    <input id="adminName" placeholder="Server name" />
+    <input id="adminDesc" placeholder="Description" />
+    <input id="adminIP" placeholder="Server IP" />
+    <textarea id="adminModes" placeholder="Gamemodes"></textarea>
+    <input id="adminStaff" placeholder="Add staff (Name - Role)" />
+    <button onclick="saveData()">Save</button>
   </div>
-</div>
+</section>
 
 <footer>
-  <p>© 2025 Drowned MC • Not affiliated with Mojang</p>
+  <p>© 2025 Drowned MC • Frozen Beyond Depths</p>
 </footer>
 
 <script>
-  const ADMIN_PASSWORD = "drowned146607"; // CHANGE THIS
-
+  const ADMIN_PASSWORD = "drowned123"; // CHANGE THIS
   const data = JSON.parse(localStorage.getItem('mcData')) || {};
 
   function loadData() {
@@ -96,23 +148,14 @@
     if (data.desc) serverDesc.innerText = data.desc;
     if (data.ip) serverIP.innerText = data.ip;
     if (data.modes) gamemodes.innerText = data.modes;
-    if (data.staff) {
-      staffList.innerHTML = '';
-      data.staff.forEach(s => {
-        const li = document.createElement('li');
-        li.innerText = s;
-        staffList.appendChild(li);
-      });
-    }
+    if (data.staff) data.staff.forEach(s => { const li=document.createElement('li'); li.innerText=s; staffList.appendChild(li); });
   }
 
   function login() {
     if (adminPass.value === ADMIN_PASSWORD) {
       loginCard.classList.add('hidden');
       adminPanel.classList.remove('hidden');
-    } else {
-      alert('Wrong password ❌');
-    }
+    } else alert('Wrong password');
   }
 
   function saveData() {
@@ -120,15 +163,24 @@
     data.desc = adminDesc.value;
     data.ip = adminIP.value;
     data.modes = adminModes.value;
-    if (!data.staff) data.staff = [];
+    if (!data.staff) data.staff=[];
     if (adminStaff.value) data.staff.push(adminStaff.value);
-
     localStorage.setItem('mcData', JSON.stringify(data));
     location.reload();
   }
 
+  // Snow generator
+  for (let i=0;i<50;i++){
+    const s=document.createElement('span');
+    s.innerHTML='❄';
+    s.style.left=Math.random()*100+'%';
+    s.style.animationDuration=5+Math.random()*10+'s';
+    s.style.fontSize=10+Math.random()*20+'px';
+    snow.appendChild(s);
+  }
+
   loadData();
 </script>
-
 </body>
 </html>
+
