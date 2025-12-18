@@ -7,13 +7,9 @@
   <style>
     :root{--ice:#7dd3fc;--dark:#020617}
     *{box-sizing:border-box}
-    body{
-      margin:0;font-family:Arial,Helvetica,sans-serif;color:#e5e7eb;
-      background:url('https://media.giphy.com/media/26AHG5KGFxSkUWw1i/giphy.gif') center/cover fixed no-repeat;
-    }
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;color:#e5e7eb;background:url('https://media.giphy.com/media/26AHG5KGFxSkUWw1i/giphy.gif') center/cover fixed no-repeat}
     body::before{content:'';position:fixed;inset:0;background:rgba(2,6,23,.75);z-index:-1}
 
-    /* Falling blocks */
     .blocks{position:fixed;inset:0;pointer-events:none;overflow:hidden}
     .block{position:absolute;width:18px;height:18px;background:linear-gradient(135deg,#7dd3fc,#38bdf8);opacity:.9;animation:fall linear infinite}
     @keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
@@ -31,18 +27,11 @@
 
     .ip{font-size:1.5rem;text-align:center;border:2px dashed var(--ice);padding:18px;border-radius:16px}
 
-    /* Store */
     .store{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px}
     .item{background:#020617;border-radius:16px;padding:20px;text-align:center;border:1px solid rgba(125,211,252,.2)}
-    .item h3{margin:10px 0}
-    .item button{padding:10px 16px;border:none;border-radius:12px;background:linear-gradient(135deg,#7dd3fc,#38bdf8);font-weight:bold;cursor:pointer}
+    .item button{margin-top:10px;padding:10px 14px;border:none;border-radius:10px;cursor:pointer}
 
     footer{text-align:center;padding:40px;background:#020617;color:#94a3b8}
-
-    /* Admin */
-    .hidden{display:none}
-    input,textarea{width:100%;padding:12px;border-radius:12px;border:none;background:#020617;color:white;margin-top:6px}
-    button{margin-top:12px}
   </style>
 </head>
 <body>
@@ -57,7 +46,6 @@
 <nav>
   <a href="#home">Home</a>
   <a href="#store">Store</a>
-  <a href="#admin">Admin</a>
 </nav>
 
 <section id="home">
@@ -79,41 +67,11 @@
   </div>
 </section>
 
-<section id="admin">
-  <div class="card" id="loginCard">
-    <h2>Admin Login</h2>
-    <input id="loginUser" placeholder="Username" />
-    <input type="password" id="loginPass" placeholder="Password" />
-    <button onclick="login()">Login</button>
-  </div>
-
-  <div class="card hidden" id="adminPanel">
-    <h2>Admin Panel</h2>
-    <input id="adminName" placeholder="Server name" />
-    <input id="adminDesc" placeholder="Description" />
-    <input id="adminIP" placeholder="Server IP" />
-    <textarea id="adminModes" placeholder="Gamemodes"></textarea>
-
-    <hr style="margin:20px 0;border-color:#1e293b">
-
-    <h3>Add Store Item</h3>
-    <input id="itemName" placeholder="Item name" />
-    <input id="itemPrice" placeholder="Price" />
-    <button onclick="addItem()">Add Item</button>
-
-    <button onclick="logout()" style="background:#ef4444;color:white">Logout</button>
-  </div>
-</section>
-
-<footer>
-  © 2025 Drowned MC
-</footer>
+<footer>© 2025 Drowned MC</footer>
 
 <script>
-  const ADMIN_USER = "admin";
-  const ADMIN_PASS = "drowned123"; // change this
-
   const data = JSON.parse(localStorage.getItem('mcData')) || { store: [] };
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
   function load(){
     if(data.name)serverName.innerText=data.name;
@@ -123,46 +81,33 @@
     renderStore();
   }
 
-  function login(){
-    if(loginUser.value===ADMIN_USER && loginPass.value===ADMIN_PASS){
-      loginCard.classList.add('hidden');
-      adminPanel.classList.remove('hidden');
-    } else alert('Wrong credentials');
-  }
-
-  function logout(){
-    adminPanel.classList.add('hidden');
-    loginCard.classList.remove('hidden');
-  }
-
-  function addItem(){
-    if(!itemName.value||!itemPrice.value) return alert('Fill all fields');
-    data.store.push({name:itemName.value,price:itemPrice.value});
-    localStorage.setItem('mcData',JSON.stringify(data));
-    itemName.value=itemPrice.value='';
-    renderStore();
-  }
-
   function renderStore(){
     storeItems.innerHTML='';
     (data.store||[]).forEach((i,idx)=>{
       const d=document.createElement('div');
       d.className='item';
       d.innerHTML=`<h3>${i.name}</h3><p>₹${i.price}</p>`;
+
+      if(isAdmin){
+        const del=document.createElement('button');
+        del.innerText='Remove';
+        del.style.background='#ef4444';
+        del.style.color='white';
+        del.onclick=()=>removeItem(idx);
+        d.appendChild(del);
+      }
+
       storeItems.appendChild(d);
     });
   }
 
-  function saveData(){
-    data.name=adminName.value;
-    data.desc=adminDesc.value;
-    data.ip=adminIP.value;
-    data.modes=adminModes.value;
+  function removeItem(index){
+    if(!confirm('Remove this item?')) return;
+    data.store.splice(index,1);
     localStorage.setItem('mcData',JSON.stringify(data));
-    location.reload();
+    renderStore();
   }
 
-  // Falling blocks
   for(let i=0;i<60;i++){
     const b=document.createElement('div');
     b.className='block';
@@ -176,3 +121,4 @@
 </script>
 </body>
 </html>
+
